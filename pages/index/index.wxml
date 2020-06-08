@@ -1,0 +1,2 @@
+<!--index.wxml-->
+<l-button bind:lintap="onGetToken">获取token</l-button>
