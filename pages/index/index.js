@@ -23,7 +23,7 @@ Page({
               type: 100
             },
             success: res => {
-              console.log(res)
+              console.log(res.data)
             }
           })
         }
