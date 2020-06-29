@@ -1,2 +1,3 @@
 <!--index.wxml-->
 <l-button bind:lintap="onGetToken">获取token</l-button>
+<l-button bind:lintap="onVertifyToken">验证token</l-button>

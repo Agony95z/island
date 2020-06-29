@@ -23,52 +23,27 @@ Page({
               type: 100
             },
             success: res => {
-              console.log(res.data)
+              console.log(res)
+              const code = res.statusCode.toString()
+              if (code.startsWith('2')) {
+                wx.setStorageSync('token', res.data.token)
+              }
             }
           })
         }
       }
     })
   },
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
-  onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
+  onVertifyToken() {
+    wx.request({
+      url: 'http://localhost:3000/v1/token/vertify',
+      method: 'POST',
+      data: {
+        token: wx.getStorageSync('token')
+      },
+      success: res => {
+        console.log(res.data.result)
       }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
-  },
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
     })
-  }
+  },
 })
